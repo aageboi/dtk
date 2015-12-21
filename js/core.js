@@ -7,17 +7,47 @@ document.addEventListener('DOMContentLoaded', function() {
   initStart();
 });
 
+var cb = function(data){
+  alert(data.user.name);
+  if (data.status) {
+    l = document.querySelector(".login");
+    l.innerHTML = "<p>Selamat datang, Heri gunawan";
+  }
+}
+
 var initStart = function(){
   posts = document.querySelector(".posts");
   newsfeed_storage = statusHtmlStorage('newsfeed');
+  
+  newsfeed_storage = 0;
+
+  $.getJSON("https://connect.detik.com/js/api/auth?callback=?", function(data) {
+
+    // console.log(data);
+    // alert(data.user.email);
+
+    // alert(data.user.name);
+    if (data.status) {
+      l = document.querySelector(".login");
+      console.log('name '+data.user.name);
+      l.innerHTML = "<p>Selamat datang, "+data.user.name;
+    }
+  });
+
   if (newsfeed_storage == 0) {
-    $.getJSON("http://detikcom.herokuapp.com/newsfeeds", function(posts) {
+    $.getJSON("https://apis.detik.com/v1/newsfeed", function(posts) {
       if (posts.success) {
         newsfeed = posts.data.nonheadline;
+        console.log('total: '+newsfeed.length);
         setHtmlStorage('newsfeed', JSON.stringify(newsfeed), 300);
+
+        // alert(newsfeed.length);
+
         for (var i = 0;i < newsfeed.length;i++){
           addNewsFeed(newsfeed[i]);
-          if (i == 15){
+          console.log('i '+i);
+          if (i == 9){
+            console.log(i);
             setTimeout(function(){ NProgress.done()}, 2000)
           }
         }
@@ -26,9 +56,12 @@ var initStart = function(){
 
   } else {
     newsfeed = JSON.parse(localStorage.getItem('newsfeed'));
+    console.log('total storage: '+newsfeed.length);
     for (var i = 0;i < newsfeed.length;i++){
       addNewsFeed(newsfeed[i]);
-      if (i == 15){
+      console.log('i storage: '+i);
+      if (i == 9){
+        console.log('storage '+i);
         setTimeout(function(){ NProgress.done()}, 2000)
       }
     }
@@ -39,9 +72,10 @@ var addNewsFeed = function(post) {
   var postDom = document.createElement("div");
   postDom.classList.add("post");
 
-  postDom.innerHTML += "<h2><a href='"+post.article_url+"' target='_blank'>"+post.title+"</h2>";
+  postDom.innerHTML += "<h3><a href='"+post.url+"' target='_blank'>"+post.title+"</h3>";
+  postDom.innerHTML += "<small>" + post.date_published + " WIB</small>";
   postDom.innerHTML += "<p>" + post.resume + "</p>";
-  postDom.innerHTML += "<span class='avatar'> <img src='"+post.image+"?w=150'></span>";
+  postDom.innerHTML += "<span class='avatar'> <img src='"+post.image.replace('http://','https://')+"?w=150'></span>";
 
   posts.insertBefore(postDom, posts.firstChild);
 }

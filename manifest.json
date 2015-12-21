@@ -1,5 +1,7 @@
 {
   "manifest_version": 2,
+  "content_security_policy": "script-src 'self' https://connect.detik.com/js/api/auth; object-src 'self'",
+  "options_page": "options.html",
   "name": "dtk",
   "description": "Detikcom NewsFeed",
   "version": "0.0.1",
@@ -15,13 +17,13 @@
     "notifications",
     "storage",
     "tabs",
+    "https://apis.detik.com/*",
+    "https://connect.detik.com/*",
     "http://localhost/*",
-    "https://fonts.googleapis.com/*",
-    "https://detikcom.herokuapp.com/*"
+    "https://fonts.googleapis.com/*"
   ],
   "content_scripts": [{
       "matches": ["http://*/*", "https://*/*"],
-      "js": ["js/jquery.min.js", "js/core.js"],
-      "run_at": "document_start"
+      "js": ["js/jquery.min.js", "js/core.js"]
   }]
 }

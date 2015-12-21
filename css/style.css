@@ -12,19 +12,20 @@ body {
   padding: 20px;
 }
 
-h1 {
-  border-bottom: 1px solid #DA552F;
+h3 {
+  /*border-bottom: 1px solid #DA552F;*/
   color: #DA552F;
   font-size: 25px;
   font-weight: lighter;
   margin: 0;
   padding-bottom: 10px;
+  line-height: 16px;
 }
 
-h1 a {
+h3 a {
   color: #3FACC1;
   font-size: 14px;
-  margin-left: 20px;
+  /*margin-left: 20px;*/
 }
 
 h2 {
@@ -61,3 +62,4 @@ span.avatar img {
   top: 0;
   width: 70px;
 }
+.login{text-align: center;padding: 10px;}
